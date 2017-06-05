@@ -108,7 +108,7 @@ public class Vin implements Serializable{
                 ", prix=" + prix +
                 ", score=" + score +
                 ", description='" + description + '\'' +
-                ", avis='" + avis + '\'' +
+                ", commentaire='" + avis + '\'' +
                 ", photo='" + photo + '\'' +
                 '}';
     }

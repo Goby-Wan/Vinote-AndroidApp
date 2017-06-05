@@ -3,12 +3,12 @@ package com.sio2017.vinote;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -17,41 +17,39 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 
-/**
- * Created by Alexandre on 01/06/2017.
- */
+public class NoteAdapter extends ArrayAdapter<Note> {
 
-public class VinAdapter extends ArrayAdapter<Vin> {
-
-    Vin vin;
+    Note note;
     Bitmap bitmap;
 
-    public VinAdapter (Context context, ArrayList<Vin> vins){super(context, 0, vins);
+    public NoteAdapter(Context context, ArrayList<Note> notes){super(context, 0, notes);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
         if(convertView == null){
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.liste_vins, parent, false) ;
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.liste_notes, parent, false) ;
         }
 
-        VinViewHolder viewHolder = (VinViewHolder) convertView.getTag();
+        NoteViewHolder viewHolder = (NoteViewHolder) convertView.getTag();
         if (viewHolder == null){
-            viewHolder = new VinViewHolder();
+            viewHolder = new NoteViewHolder();
             viewHolder.photo = (ImageView) convertView.findViewById(R.id.photo);
-            viewHolder.appellation = (TextView) convertView.findViewById(R.id.appellation);
-            viewHolder.domaine = (TextView) convertView.findViewById(R.id.domaine);
-            viewHolder.rating = (RatingBar) convertView.findViewById(R.id.rating);
+            viewHolder.nom = (TextView) convertView.findViewById(R.id.nom);
+            viewHolder.commentaire = (TextView) convertView.findViewById(R.id.commentaire);
+            viewHolder.time = (TextView) convertView.findViewById(R.id.time);
+            viewHolder.note = (RatingBar) convertView.findViewById(R.id.note);
         }
 
-        vin = getItem(position);
+        note = getItem(position);
         bitmap = null;
 
         Thread t = new Thread(new Runnable() {
             public void run() {
-                String url = vin.getPhoto();
+                String url = note.getInvite().getPhoto();
                 try (InputStream is = new URL(url).openStream() ) {
                     bitmap = BitmapFactory.decodeStream( is );
                 } catch (MalformedURLException e) {
@@ -63,21 +61,24 @@ public class VinAdapter extends ArrayAdapter<Vin> {
         });
         t.start();
 
+        Date date = new java.sql.Date(note.getTimestamp());
 
         viewHolder.photo.setImageBitmap(bitmap);
-        viewHolder.appellation.setText(vin.getAppellation() + " - " + vin.getAnnee());
-        viewHolder.domaine.setText(vin.getExposant().getDomaine());
-        viewHolder.rating.setRating((float)(vin.getScore()-50)/10);
+        viewHolder.nom.setText(note.getInvite().getPrenom() + " " + note.getInvite().getNom());
+        viewHolder.commentaire.setText(note.getCommentaire());
+        viewHolder.time.setText(date.toString());
+        viewHolder.note.setRating((float)(note.getNote()));
 
         return convertView;
 
     }
 
-    private class VinViewHolder{
+    private class NoteViewHolder{
         public ImageView photo;
-        public TextView appellation;
-        public TextView domaine;
-        public RatingBar rating;
+        public TextView nom;
+        public TextView commentaire;
+        public TextView time;
+        public RatingBar note;
     }
 
 }

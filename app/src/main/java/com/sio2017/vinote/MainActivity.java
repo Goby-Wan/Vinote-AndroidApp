@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
     private ListView mListView ;
     ArrayList<Exposant> exposants =  new ArrayList<Exposant>();
     ArrayList<Invite> invites = new ArrayList<Invite>();
-    ArrayList<Note> note = new ArrayList<Note>();
+    ArrayList<Note> notes = new ArrayList<Note>();
     ArrayList<Vin> vins = new ArrayList<Vin>();
     VinAdapter vinAdapter ;
     private Handler handler = new Handler();
@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 //exposants = Connexion.getJsonExposants(Connexion.getFromRest(1)) ;
                 //invites = Connexion.getJsonInvites(Connexion.getFromRest(2)) ;
-                note = Connexion.getJsonNotes(Connexion.getFromRest(3)) ;
+                notes = Connexion.getJsonNotes(Connexion.getFromRest(3)) ;
                 vins = Connexion.getJsonVins(Connexion.getFromRest(4)) ;
 
                 handler.post(new Runnable() {

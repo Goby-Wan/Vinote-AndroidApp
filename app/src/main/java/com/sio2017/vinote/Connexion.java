@@ -26,7 +26,8 @@ public class Connexion {
     static public String getFromRest (int typeObjet) {
 
         StringBuilder sb = new StringBuilder() ;
-        String URL = "http://192.168.2.130/vinote/web/app_dev.php/" ;
+        //String URL = "http://192.168.2.130/vinote/web/app_dev.php/" ;
+        String URL = "http://192.168.1.36/vinote/web/app_dev.php/" ;
 
         switch (typeObjet) {
             case 1 :
@@ -74,7 +75,8 @@ public class Connexion {
     static public String getFromRest (String typeObjet, String id) {
 
         StringBuilder sb = new StringBuilder() ;
-        String URL = "http://192.168.2.130/vinote/web/app_dev.php/" ;
+        //String URL = "http://192.168.2.130/vinote/web/app_dev.php/" ;
+        String URL = "http://192.168.1.36/vinote/web/app_dev.php/" ;
 
         switch (typeObjet) {
             case "exposant" :
@@ -85,6 +87,9 @@ public class Connexion {
                 break ;
             case "note" :
                 URL += "note/" ;
+                break ;
+            case "note_vin" :
+                URL += "notes/vin/" ;
                 break ;
             case "vin" :
                 URL += "vin/" ;
